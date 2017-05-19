@@ -1,0 +1,16 @@
+河池
+http://172.16.50.33/hcschool
+管理员：admin/admin
+新增用户默认密码：1
+服务器IP：222.83.177.235
+ssh port：41110
+root/hc20170418
+内网地址：172.16.50.33
+
+mysql
+root/hczjzx20170419
+
+teamview
+      ID： 109142531
+      PSW：hczjzx2017417
+登录密码：admin@123

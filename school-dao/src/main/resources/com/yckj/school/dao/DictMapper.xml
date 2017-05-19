@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yckj.school.dao.DictMapper" >
+  <resultMap id="BaseResultMap" type="com.yckj.school.domain.Dict" >
+    <id column="dict_type" property="dictType" jdbcType="INTEGER" />
+    <id column="dict_id" property="dictId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="detail" property="detail" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    dict_type, dict_id, name, detail
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yckj.school.domain.DictExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dict
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.yckj.school.domain.DictKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from dict
+    where dict_type = #{dictType,jdbcType=INTEGER}
+      and dict_id = #{dictId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.yckj.school.domain.DictKey" >
+    delete from dict
+    where dict_type = #{dictType,jdbcType=INTEGER}
+      and dict_id = #{dictId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yckj.school.domain.DictExample" >
+    delete from dict
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yckj.school.domain.Dict" >
+    insert into dict (dict_type, dict_id, name, 
+      detail)
+    values (#{dictType,jdbcType=INTEGER}, #{dictId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{detail,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yckj.school.domain.Dict" >
+    insert into dict
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dictType != null" >
+        dict_type,
+      </if>
+      <if test="dictId != null" >
+        dict_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dictType != null" >
+        #{dictType,jdbcType=INTEGER},
+      </if>
+      <if test="dictId != null" >
+        #{dictId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update dict
+    <set >
+      <if test="record.dictType != null" >
+        dict_type = #{record.dictType,jdbcType=INTEGER},
+      </if>
+      <if test="record.dictId != null" >
+        dict_id = #{record.dictId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detail != null" >
+        detail = #{record.detail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update dict
+    set dict_type = #{record.dictType,jdbcType=INTEGER},
+      dict_id = #{record.dictId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      detail = #{record.detail,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yckj.school.domain.Dict" >
+    update dict
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dict_type = #{dictType,jdbcType=INTEGER}
+      and dict_id = #{dictId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yckj.school.domain.Dict" >
+    update dict
+    set name = #{name,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=VARCHAR}
+    where dict_type = #{dictType,jdbcType=INTEGER}
+      and dict_id = #{dictId,jdbcType=INTEGER}
+  </update>
+</mapper>

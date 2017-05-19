@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yckj.school.dao.CourseMapper" >
+  <resultMap id="BaseResultMap" type="com.yckj.school.domain.Course" >
+    <id column="course_id" property="courseId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
+    <result column="save_cnt" property="saveCnt" jdbcType="BIGINT" />
+    <result column="view_cnt" property="viewCnt" jdbcType="BIGINT" />
+    <result column="load_cnt" property="loadCnt" jdbcType="BIGINT" />
+    <result column="score_cnt" property="scoreCnt" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="major_id" property="majorId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="statue" property="statue" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yckj.school.domain.CourseWithBLOBs" extends="BaseResultMap" >
+    <result column="catalog" property="catalog" jdbcType="LONGVARCHAR" />
+    <result column="standard" property="standard" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    course_id, name, note, user_id, picture, save_cnt, view_cnt, load_cnt, score_cnt, 
+    score, type, major_id, create_time, statue
+  </sql>
+  <sql id="Blob_Column_List" >
+    catalog, standard
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yckj.school.domain.CourseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from course
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yckj.school.domain.CourseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from course
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from course
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from course
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yckj.school.domain.CourseExample" >
+    delete from course
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yckj.school.domain.CourseWithBLOBs" >
+    insert into course (course_id, name, note, 
+      user_id, picture, save_cnt, 
+      view_cnt, load_cnt, score_cnt, 
+      score, type, major_id, 
+      create_time, statue, catalog, 
+      standard)
+    values (#{courseId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR}, #{saveCnt,jdbcType=BIGINT}, 
+      #{viewCnt,jdbcType=BIGINT}, #{loadCnt,jdbcType=BIGINT}, #{scoreCnt,jdbcType=INTEGER}, 
+      #{score,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{majorId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{statue,jdbcType=CHAR}, #{catalog,jdbcType=LONGVARCHAR}, 
+      #{standard,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yckj.school.domain.CourseWithBLOBs" >
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="picture != null" >
+        picture,
+      </if>
+      <if test="saveCnt != null" >
+        save_cnt,
+      </if>
+      <if test="viewCnt != null" >
+        view_cnt,
+      </if>
+      <if test="loadCnt != null" >
+        load_cnt,
+      </if>
+      <if test="scoreCnt != null" >
+        score_cnt,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="majorId != null" >
+        major_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="statue != null" >
+        statue,
+      </if>
+      <if test="catalog != null" >
+        catalog,
+      </if>
+      <if test="standard != null" >
+        standard,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="courseId != null" >
+        #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="saveCnt != null" >
+        #{saveCnt,jdbcType=BIGINT},
+      </if>
+      <if test="viewCnt != null" >
+        #{viewCnt,jdbcType=BIGINT},
+      </if>
+      <if test="loadCnt != null" >
+        #{loadCnt,jdbcType=BIGINT},
+      </if>
+      <if test="scoreCnt != null" >
+        #{scoreCnt,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="majorId != null" >
+        #{majorId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statue != null" >
+        #{statue,jdbcType=CHAR},
+      </if>
+      <if test="catalog != null" >
+        #{catalog,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="standard != null" >
+        #{standard,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update course
+    <set >
+      <if test="record.courseId != null" >
+        course_id = #{record.courseId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.note != null" >
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picture != null" >
+        picture = #{record.picture,jdbcType=VARCHAR},
+      </if>
+      <if test="record.saveCnt != null" >
+        save_cnt = #{record.saveCnt,jdbcType=BIGINT},
+      </if>
+      <if test="record.viewCnt != null" >
+        view_cnt = #{record.viewCnt,jdbcType=BIGINT},
+      </if>
+      <if test="record.loadCnt != null" >
+        load_cnt = #{record.loadCnt,jdbcType=BIGINT},
+      </if>
+      <if test="record.scoreCnt != null" >
+        score_cnt = #{record.scoreCnt,jdbcType=INTEGER},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.majorId != null" >
+        major_id = #{record.majorId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.statue != null" >
+        statue = #{record.statue,jdbcType=CHAR},
+      </if>
+      <if test="record.catalog != null" >
+        catalog = #{record.catalog,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.standard != null" >
+        standard = #{record.standard,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update course
+    set course_id = #{record.courseId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      note = #{record.note,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      picture = #{record.picture,jdbcType=VARCHAR},
+      save_cnt = #{record.saveCnt,jdbcType=BIGINT},
+      view_cnt = #{record.viewCnt,jdbcType=BIGINT},
+      load_cnt = #{record.loadCnt,jdbcType=BIGINT},
+      score_cnt = #{record.scoreCnt,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      major_id = #{record.majorId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      statue = #{record.statue,jdbcType=CHAR},
+      catalog = #{record.catalog,jdbcType=LONGVARCHAR},
+      standard = #{record.standard,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update course
+    set course_id = #{record.courseId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      note = #{record.note,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      picture = #{record.picture,jdbcType=VARCHAR},
+      save_cnt = #{record.saveCnt,jdbcType=BIGINT},
+      view_cnt = #{record.viewCnt,jdbcType=BIGINT},
+      load_cnt = #{record.loadCnt,jdbcType=BIGINT},
+      score_cnt = #{record.scoreCnt,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      major_id = #{record.majorId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      statue = #{record.statue,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yckj.school.domain.CourseWithBLOBs" >
+    update course
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null" >
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="saveCnt != null" >
+        save_cnt = #{saveCnt,jdbcType=BIGINT},
+      </if>
+      <if test="viewCnt != null" >
+        view_cnt = #{viewCnt,jdbcType=BIGINT},
+      </if>
+      <if test="loadCnt != null" >
+        load_cnt = #{loadCnt,jdbcType=BIGINT},
+      </if>
+      <if test="scoreCnt != null" >
+        score_cnt = #{scoreCnt,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="majorId != null" >
+        major_id = #{majorId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statue != null" >
+        statue = #{statue,jdbcType=CHAR},
+      </if>
+      <if test="catalog != null" >
+        catalog = #{catalog,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="standard != null" >
+        standard = #{standard,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yckj.school.domain.CourseWithBLOBs" >
+    update course
+    set name = #{name,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      picture = #{picture,jdbcType=VARCHAR},
+      save_cnt = #{saveCnt,jdbcType=BIGINT},
+      view_cnt = #{viewCnt,jdbcType=BIGINT},
+      load_cnt = #{loadCnt,jdbcType=BIGINT},
+      score_cnt = #{scoreCnt,jdbcType=INTEGER},
+      score = #{score,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      major_id = #{majorId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      statue = #{statue,jdbcType=CHAR},
+      catalog = #{catalog,jdbcType=LONGVARCHAR},
+      standard = #{standard,jdbcType=LONGVARCHAR}
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yckj.school.domain.Course" >
+    update course
+    set name = #{name,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      picture = #{picture,jdbcType=VARCHAR},
+      save_cnt = #{saveCnt,jdbcType=BIGINT},
+      view_cnt = #{viewCnt,jdbcType=BIGINT},
+      load_cnt = #{loadCnt,jdbcType=BIGINT},
+      score_cnt = #{scoreCnt,jdbcType=INTEGER},
+      score = #{score,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      major_id = #{majorId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      statue = #{statue,jdbcType=CHAR}
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </update>
+  <!-- 查询总记录数 -->
+  <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="map">
+    select count(*)
+    from course
+    <where>
+      <if test="courseId != null and courseId != ''">
+        and course_id = #{courseId,jdbcType=BIGINT}
+      </if>
+      <if test="name != null and name != ''">
+        and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="note != null and note != ''">
+        and note = #{note,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId != ''">
+        and user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null and type != ''">
+        and type = #{type,jdbcType=INTEGER}
+      </if>
+      <if test="majorId != null and majorId != ''">
+        and major_id = #{majorId,jdbcType=BIGINT}
+      </if>
+      <if test="statue != null and statue != ''">
+        and statue = #{statue,jdbcType=CHAR}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询 -->
+  <select id="selectByPage" resultMap="ResultMapWithBLOBs" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from course
+    <where>
+      <if test="courseId != null and courseId != ''">
+        and course_id = #{courseId,jdbcType=BIGINT}
+      </if>
+      <if test="name != null and name != ''">
+        and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="note != null and note != ''">
+        and note = #{note,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId != ''">
+        and user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null and type != ''">
+        and type = #{type,jdbcType=INTEGER}
+      </if>
+      <if test="majorId != null and majorId != ''">
+        and major_id = #{majorId,jdbcType=BIGINT}
+      </if>
+      <if test="statue != null and statue != ''">
+        and statue = #{statue,jdbcType=CHAR}
+      </if>
+    </where>
+    <if test="orderByColumn != null and orderByColumn != ''">
+      order by ${orderByColumn}
+      <if test="orderType != null and orderType != ''">
+        ${orderType}
+      </if>
+    </if>
+    limit
+    #{start,jdbcType=INTEGER},#{count,jdbcType=INTEGER}
+  </select>
+  <!-- 浏览次数加1 -->
+  <update id="addViewCnt"  parameterType="com.yckj.school.domain.Course">
+    update course
+    set view_cnt = view_cnt+1
+    where course_id=#{courseId,jdbcType=BIGINT}
+  </update>
+  <!-- 收藏次数加1 -->
+  <update id="addSaveCnt"  parameterType="com.yckj.school.domain.Course">
+    update course
+    set save_cnt = save_cnt+1
+    where course_id=#{courseId,jdbcType=BIGINT}
+  </update>
+  <!-- 收藏次数减1 -->
+  <update id="subSaveCnt"  parameterType="com.yckj.school.domain.Course">
+    update course,
+    set save_cnt = save_cnt-1
+    where course_id=#{courseId,jdbcType=BIGINT}
+  </update>
+  <!-- 评分 -->
+  <update id="addScore"  parameterType="com.yckj.school.domain.Course">
+    update course c1 inner join course c2 on c1.course_id=c2.course_id 
+    set c1.score=round(1.0*(c2.score*c2.score_cnt+#{score,jdbcType=INTEGER})/(c2.score_cnt+1)),
+    c1.score_cnt=c2.score_cnt+1
+    where c1.course_id=#{courseId,jdbcType=BIGINT};
+  </update>
+</mapper>

@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yckj.school.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.yckj.school.domain.User">
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="passwd" property="passwd" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="head" property="head" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="teacher_level" property="teacherLevel" jdbcType="VARCHAR" />
+    <result column="teacher_detail" property="teacherDetail" jdbcType="VARCHAR" />
+    <result column="major_id" property="majorId" jdbcType="BIGINT" />
+    <result column="teacher_id" property="teacherId" jdbcType="VARCHAR" />
+    <result column="locked" property="locked" jdbcType="CHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="statue" property="statue" jdbcType="CHAR" />
+    <result column="can_upload" property="canUpload" jdbcType="CHAR" />
+    <result column="can_download" property="canDownload" jdbcType="CHAR" />
+    <result column="upload_limit" property="uploadLimit" jdbcType="BIGINT" />
+    <result column="download_limit" property="downloadLimit" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" suffix=")" prefixOverrides="and">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition}
+                  #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition}
+                  #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                    separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" suffix=")" prefixOverrides="and">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition}
+                  #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition}
+                  #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                    separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    user_id, name, phone, passwd, type, head, create_time,
+    teacher_level, teacher_detail,
+    major_id, teacher_id, locked, score, statue, can_upload, can_download, upload_limit,
+    download_limit
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yckj.school.domain.UserExample">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user
+    where
+    user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yckj.school.domain.UserExample">
+    delete from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yckj.school.domain.User">
+    insert into user (user_id,
+    name, phone,
+    passwd, type, head,
+    create_time, teacher_level, teacher_detail,
+    major_id, teacher_id, locked,
+    score, statue, can_upload,
+    can_download, upload_limit, download_limit
+    )
+    values (#{userId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+    #{passwd,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{head,jdbcType=VARCHAR},
+    #{createTime,jdbcType=TIMESTAMP}, #{teacherLevel,jdbcType=VARCHAR},
+    #{teacherDetail,jdbcType=VARCHAR},
+    #{majorId,jdbcType=BIGINT}, #{teacherId,jdbcType=VARCHAR}, #{locked,jdbcType=CHAR},
+    #{score,jdbcType=INTEGER}, #{statue,jdbcType=CHAR}, #{canUpload,jdbcType=CHAR},
+    #{canDownload,jdbcType=CHAR}, #{uploadLimit,jdbcType=BIGINT}, #{downloadLimit,jdbcType=BIGINT}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yckj.school.domain.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="passwd != null">
+        passwd,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="head != null">
+        head,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="teacherLevel != null">
+        teacher_level,
+      </if>
+      <if test="teacherDetail != null">
+        teacher_detail,
+      </if>
+      <if test="majorId != null">
+        major_id,
+      </if>
+      <if test="teacherId != null">
+        teacher_id,
+      </if>
+      <if test="locked != null">
+        locked,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="statue != null">
+        statue,
+      </if>
+      <if test="canUpload != null">
+        can_upload,
+      </if>
+      <if test="canDownload != null">
+        can_download,
+      </if>
+      <if test="uploadLimit != null">
+        upload_limit,
+      </if>
+      <if test="downloadLimit != null">
+        download_limit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="head != null">
+        #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teacherLevel != null">
+        #{teacherLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherDetail != null">
+        #{teacherDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null">
+        #{majorId,jdbcType=BIGINT},
+      </if>
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="locked != null">
+        #{locked,jdbcType=CHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="statue != null">
+        #{statue,jdbcType=CHAR},
+      </if>
+      <if test="canUpload != null">
+        #{canUpload,jdbcType=CHAR},
+      </if>
+      <if test="canDownload != null">
+        #{canDownload,jdbcType=CHAR},
+      </if>
+      <if test="uploadLimit != null">
+        #{uploadLimit,jdbcType=BIGINT},
+      </if>
+      <if test="downloadLimit != null">
+        #{downloadLimit,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user
+    <set>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwd != null">
+        passwd = #{record.passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.head != null">
+        head = #{record.head,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.teacherLevel != null">
+        teacher_level =
+        #{record.teacherLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherDetail != null">
+        teacher_detail =
+        #{record.teacherDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.majorId != null">
+        major_id = #{record.majorId,jdbcType=BIGINT},
+      </if>
+      <if test="record.teacherId != null">
+        teacher_id = #{record.teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.locked != null">
+        locked = #{record.locked,jdbcType=CHAR},
+      </if>
+      <if test="record.score != null">
+        score = #{record.score,jdbcType=INTEGER},
+      </if>
+      <if test="record.statue != null">
+        statue = #{record.statue,jdbcType=CHAR},
+      </if>
+      <if test="record.canUpload != null">
+        can_upload = #{record.canUpload,jdbcType=CHAR},
+      </if>
+      <if test="record.canDownload != null">
+        can_download = #{record.canDownload,jdbcType=CHAR},
+      </if>
+      <if test="record.uploadLimit != null">
+        upload_limit = #{record.uploadLimit,jdbcType=BIGINT},
+      </if>
+      <if test="record.downloadLimit != null">
+        download_limit =
+        #{record.downloadLimit,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user
+    set user_id = #{record.userId,jdbcType=VARCHAR},
+    name = #{record.name,jdbcType=VARCHAR},
+    phone = #{record.phone,jdbcType=VARCHAR},
+    passwd = #{record.passwd,jdbcType=VARCHAR},
+    type = #{record.type,jdbcType=INTEGER},
+    head = #{record.head,jdbcType=VARCHAR},
+    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+    teacher_level = #{record.teacherLevel,jdbcType=VARCHAR},
+    teacher_detail = #{record.teacherDetail,jdbcType=VARCHAR},
+    major_id = #{record.majorId,jdbcType=BIGINT},
+    teacher_id = #{record.teacherId,jdbcType=VARCHAR},
+    locked = #{record.locked,jdbcType=CHAR},
+    score = #{record.score,jdbcType=INTEGER},
+    statue = #{record.statue,jdbcType=CHAR},
+    can_upload = #{record.canUpload,jdbcType=CHAR},
+    can_download = #{record.canDownload,jdbcType=CHAR},
+    upload_limit = #{record.uploadLimit,jdbcType=BIGINT},
+    download_limit = #{record.downloadLimit,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yckj.school.domain.User">
+    update user
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        passwd = #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="head != null">
+        head = #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teacherLevel != null">
+        teacher_level = #{teacherLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherDetail != null">
+        teacher_detail = #{teacherDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null">
+        major_id = #{majorId,jdbcType=BIGINT},
+      </if>
+      <if test="teacherId != null">
+        teacher_id = #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="locked != null">
+        locked = #{locked,jdbcType=CHAR},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="statue != null">
+        statue = #{statue,jdbcType=CHAR},
+      </if>
+      <if test="canUpload != null">
+        can_upload = #{canUpload,jdbcType=CHAR},
+      </if>
+      <if test="canDownload != null">
+        can_download = #{canDownload,jdbcType=CHAR},
+      </if>
+      <if test="uploadLimit != null">
+        upload_limit = #{uploadLimit,jdbcType=BIGINT},
+      </if>
+      <if test="downloadLimit != null">
+        download_limit = #{downloadLimit,jdbcType=BIGINT},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yckj.school.domain.User">
+    update user
+    set
+    name = #{name,jdbcType=VARCHAR},
+    phone = #{phone,jdbcType=VARCHAR},
+    passwd = #{passwd,jdbcType=VARCHAR},
+    type = #{type,jdbcType=INTEGER},
+    head = #{head,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    teacher_level = #{teacherLevel,jdbcType=VARCHAR},
+    teacher_detail = #{teacherDetail,jdbcType=VARCHAR},
+    major_id = #{majorId,jdbcType=BIGINT},
+    teacher_id = #{teacherId,jdbcType=VARCHAR},
+    locked = #{locked,jdbcType=CHAR},
+    score = #{score,jdbcType=INTEGER},
+    statue = #{statue,jdbcType=CHAR},
+    can_upload = #{canUpload,jdbcType=CHAR},
+    can_download = #{canDownload,jdbcType=CHAR},
+    upload_limit = #{uploadLimit,jdbcType=BIGINT},
+    download_limit = #{downloadLimit,jdbcType=BIGINT}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <!-- 查询总记录数 -->
+  <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="map">
+    select count(*)
+    from user
+    <where>
+      <if test="userId != null and userId != ''">
+        and user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null and name != ''">
+        and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="phone != null and phone != ''">
+        and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="passwd != null and passwd != ''">
+        and passwd = #{passwd,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null and type != ''">
+        and type = #{type,jdbcType=INTEGER}
+      </if>
+      <if test="head != null and head != ''">
+        and head = #{head,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null and createTime != ''">
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="teacherLevel != null and teacherLevel != ''">
+        and teacherLevel = #{teacherLevel,jdbcType=VARCHAR}
+      </if>
+      <if test="teacherDetail != null and teacherDetail != ''">
+        and teacherDetail = #{teacherDetail,jdbcType=VARCHAR}
+      </if>
+      <if test="majorId != null and majorId != ''">
+        and majorId = #{majorId,jdbcType=BIGINT}
+      </if>
+      <if test="teacherId != null and teacherId != ''">
+        and teacherId = #{teacherId,jdbcType=VARCHAR}
+      </if>
+      <if test="locked != null and locked != ''">
+        and locked = #{locked,jdbcType=CHAR}
+      </if>
+      <if test="score != null and score != ''">
+        and score = #{score,jdbcType=INTEGER}
+      </if>
+      <if test="statue != null and statue != ''">
+        and statue = #{statue,jdbcType=CHAR}
+      </if>
+      <if test="canUpload != null and canUpload != ''">
+        and can_upload = #{canUpload,jdbcType=CHAR}
+      </if>
+      <if test="canDownload != null and canDownload != ''">
+        and can_download = #{canDownload,jdbcType=CHAR}
+      </if>
+      <if test="uploadLimit != null and uploadLimit != ''">
+        and upload_limit = #{uploadLimit,jdbcType=BIGINT}
+      </if>
+      <if test="downloadLimit != null and downloadLimit != ''">
+        and download_limit = #{downloadLimit,jdbcType=BIGINT}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询 -->
+  <select id="selectByPage" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    <where>
+      <if test="userId != null and userId != ''">
+        and user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null and name != ''">
+        and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="phone != null and phone != ''">
+        and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="passwd != null and passwd != ''">
+        and passwd = #{passwd,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null and type != ''">
+        and type = #{type,jdbcType=INTEGER}
+      </if>
+      <if test="head != null and head != ''">
+        and head = #{head,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null and createTime != ''">
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="teacherLevel != null and teacherLevel != ''">
+        and teacherLevel = #{teacherLevel,jdbcType=VARCHAR}
+      </if>
+      <if test="teacherDetail != null and teacherDetail != ''">
+        and teacherDetail = #{teacherDetail,jdbcType=VARCHAR}
+      </if>
+      <if test="majorId != null and majorId != ''">
+        and majorId = #{majorId,jdbcType=BIGINT}
+      </if>
+      <if test="teacherId != null and teacherId != ''">
+        and teacherId = #{teacherId,jdbcType=VARCHAR}
+      </if>
+      <if test="locked != null and locked != ''">
+        and locked = #{locked,jdbcType=CHAR}
+      </if>
+      <if test="score != null and score != ''">
+        and score = #{score,jdbcType=INTEGER}
+      </if>
+      <if test="statue != null and statue != ''">
+        and statue = #{statue,jdbcType=CHAR}
+      </if>
+      <if test="canUpload != null and canUpload != ''">
+        and can_upload = #{canUpload,jdbcType=CHAR}
+      </if>
+      <if test="canDownload != null and canDownload != ''">
+        and can_download = #{canDownload,jdbcType=CHAR}
+      </if>
+      <if test="uploadLimit != null and uploadLimit != ''">
+        and upload_limit = #{uploadLimit,jdbcType=BIGINT}
+      </if>
+      <if test="downloadLimit != null and downloadLimit != ''">
+        and download_limit = #{downloadLimit,jdbcType=BIGINT}
+      </if>
+    </where>
+    <if test="orderByColumn != null and orderByColumn != ''">
+      order by ${orderByColumn}
+      <if test="orderType != null and orderType != ''">
+        ${orderType}
+      </if>
+    </if>
+    limit
+    #{start,jdbcType=INTEGER},#{count,jdbcType=INTEGER}
+  </select>
+</mapper>

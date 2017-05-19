@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yckj.school.dao.ScoreMapper" >
+  <resultMap id="BaseResultMap" type="com.yckj.school.domain.Score" >
+    <id column="score_id" property="scoreId" jdbcType="BIGINT" />
+    <result column="ref_id" property="refId" jdbcType="BIGINT" />
+    <result column="ref_type" property="refType" jdbcType="CHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    score_id, ref_id, ref_type, user_id, score, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yckj.school.domain.ScoreExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from score
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from score
+    where score_id = #{scoreId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from score
+    where score_id = #{scoreId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yckj.school.domain.ScoreExample" >
+    delete from score
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yckj.school.domain.Score" >
+    insert into score (score_id, ref_id, ref_type, 
+      user_id, score, create_time
+      )
+    values (#{scoreId,jdbcType=BIGINT}, #{refId,jdbcType=BIGINT}, #{refType,jdbcType=CHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yckj.school.domain.Score" >
+    insert into score
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scoreId != null" >
+        score_id,
+      </if>
+      <if test="refId != null" >
+        ref_id,
+      </if>
+      <if test="refType != null" >
+        ref_type,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scoreId != null" >
+        #{scoreId,jdbcType=BIGINT},
+      </if>
+      <if test="refId != null" >
+        #{refId,jdbcType=BIGINT},
+      </if>
+      <if test="refType != null" >
+        #{refType,jdbcType=CHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update score
+    <set >
+      <if test="record.scoreId != null" >
+        score_id = #{record.scoreId,jdbcType=BIGINT},
+      </if>
+      <if test="record.refId != null" >
+        ref_id = #{record.refId,jdbcType=BIGINT},
+      </if>
+      <if test="record.refType != null" >
+        ref_type = #{record.refType,jdbcType=CHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update score
+    set score_id = #{record.scoreId,jdbcType=BIGINT},
+      ref_id = #{record.refId,jdbcType=BIGINT},
+      ref_type = #{record.refType,jdbcType=CHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      score = #{record.score,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yckj.school.domain.Score" >
+    update score
+    <set >
+      <if test="refId != null" >
+        ref_id = #{refId,jdbcType=BIGINT},
+      </if>
+      <if test="refType != null" >
+        ref_type = #{refType,jdbcType=CHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where score_id = #{scoreId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yckj.school.domain.Score" >
+    update score
+    set ref_id = #{refId,jdbcType=BIGINT},
+      ref_type = #{refType,jdbcType=CHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where score_id = #{scoreId,jdbcType=BIGINT}
+  </update>
+</mapper>

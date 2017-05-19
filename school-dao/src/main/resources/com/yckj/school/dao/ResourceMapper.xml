@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yckj.school.dao.ResourceMapper" >
+  <resultMap id="BaseResultMap" type="com.yckj.school.domain.Resource" >
+    <id column="resource_id" property="resourceId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="suffix" property="suffix" jdbcType="VARCHAR" />
+    <result column="ori_url" property="oriUrl" jdbcType="VARCHAR" />
+    <result column="swf_url" property="swfUrl" jdbcType="VARCHAR" />
+    <result column="major_id" property="majorId" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="file_size" property="fileSize" jdbcType="BIGINT" />
+    <result column="save_cnt" property="saveCnt" jdbcType="INTEGER" />
+    <result column="load_cnt" property="loadCnt" jdbcType="INTEGER" />
+    <result column="score_cnt" property="scoreCnt" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="view_cnt" property="viewCnt" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="person_visible" property="personVisible" jdbcType="CHAR" />
+    <result column="statue" property="statue" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    resource_id, name, suffix, ori_url, swf_url, major_id, type, note, user_id, file_size, 
+    save_cnt, load_cnt, score_cnt, score, view_cnt, create_time, person_visible, statue
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yckj.school.domain.ResourceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from resource
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from resource
+    where resource_id = #{resourceId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from resource
+    where resource_id = #{resourceId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yckj.school.domain.ResourceExample" >
+    delete from resource
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yckj.school.domain.Resource" >
+    insert into resource (resource_id, name, suffix, 
+      ori_url, swf_url, major_id, 
+      type, note, user_id, 
+      file_size, save_cnt, load_cnt, 
+      score_cnt, score, view_cnt, 
+      create_time, person_visible, statue
+      )
+    values (#{resourceId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, 
+      #{oriUrl,jdbcType=VARCHAR}, #{swfUrl,jdbcType=VARCHAR}, #{majorId,jdbcType=BIGINT}, 
+      #{type,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{fileSize,jdbcType=BIGINT}, #{saveCnt,jdbcType=INTEGER}, #{loadCnt,jdbcType=INTEGER}, 
+      #{scoreCnt,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, #{viewCnt,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{personVisible,jdbcType=CHAR}, #{statue,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yckj.school.domain.Resource" >
+    insert into resource
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="resourceId != null" >
+        resource_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="suffix != null" >
+        suffix,
+      </if>
+      <if test="oriUrl != null" >
+        ori_url,
+      </if>
+      <if test="swfUrl != null" >
+        swf_url,
+      </if>
+      <if test="majorId != null" >
+        major_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="fileSize != null" >
+        file_size,
+      </if>
+      <if test="saveCnt != null" >
+        save_cnt,
+      </if>
+      <if test="loadCnt != null" >
+        load_cnt,
+      </if>
+      <if test="scoreCnt != null" >
+        score_cnt,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="viewCnt != null" >
+        view_cnt,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="personVisible != null" >
+        person_visible,
+      </if>
+      <if test="statue != null" >
+        statue,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="resourceId != null" >
+        #{resourceId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="suffix != null" >
+        #{suffix,jdbcType=VARCHAR},
+      </if>
+      <if test="oriUrl != null" >
+        #{oriUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="swfUrl != null" >
+        #{swfUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null" >
+        #{majorId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null" >
+        #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="saveCnt != null" >
+        #{saveCnt,jdbcType=INTEGER},
+      </if>
+      <if test="loadCnt != null" >
+        #{loadCnt,jdbcType=INTEGER},
+      </if>
+      <if test="scoreCnt != null" >
+        #{scoreCnt,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="viewCnt != null" >
+        #{viewCnt,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="personVisible != null" >
+        #{personVisible,jdbcType=CHAR},
+      </if>
+      <if test="statue != null" >
+        #{statue,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update resource
+    <set >
+      <if test="record.resourceId != null" >
+        resource_id = #{record.resourceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suffix != null" >
+        suffix = #{record.suffix,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oriUrl != null" >
+        ori_url = #{record.oriUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.swfUrl != null" >
+        swf_url = #{record.swfUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.majorId != null" >
+        major_id = #{record.majorId,jdbcType=BIGINT},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.note != null" >
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileSize != null" >
+        file_size = #{record.fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="record.saveCnt != null" >
+        save_cnt = #{record.saveCnt,jdbcType=INTEGER},
+      </if>
+      <if test="record.loadCnt != null" >
+        load_cnt = #{record.loadCnt,jdbcType=INTEGER},
+      </if>
+      <if test="record.scoreCnt != null" >
+        score_cnt = #{record.scoreCnt,jdbcType=INTEGER},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=INTEGER},
+      </if>
+      <if test="record.viewCnt != null" >
+        view_cnt = #{record.viewCnt,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.personVisible != null" >
+        person_visible = #{record.personVisible,jdbcType=CHAR},
+      </if>
+      <if test="record.statue != null" >
+        statue = #{record.statue,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update resource
+    set resource_id = #{record.resourceId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      suffix = #{record.suffix,jdbcType=VARCHAR},
+      ori_url = #{record.oriUrl,jdbcType=VARCHAR},
+      swf_url = #{record.swfUrl,jdbcType=VARCHAR},
+      major_id = #{record.majorId,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=INTEGER},
+      note = #{record.note,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      file_size = #{record.fileSize,jdbcType=BIGINT},
+      save_cnt = #{record.saveCnt,jdbcType=INTEGER},
+      load_cnt = #{record.loadCnt,jdbcType=INTEGER},
+      score_cnt = #{record.scoreCnt,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=INTEGER},
+      view_cnt = #{record.viewCnt,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      person_visible = #{record.personVisible,jdbcType=CHAR},
+      statue = #{record.statue,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yckj.school.domain.Resource" >
+    update resource
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="suffix != null" >
+        suffix = #{suffix,jdbcType=VARCHAR},
+      </if>
+      <if test="oriUrl != null" >
+        ori_url = #{oriUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="swfUrl != null" >
+        swf_url = #{swfUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null" >
+        major_id = #{majorId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null" >
+        file_size = #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="saveCnt != null" >
+        save_cnt = #{saveCnt,jdbcType=INTEGER},
+      </if>
+      <if test="loadCnt != null" >
+        load_cnt = #{loadCnt,jdbcType=INTEGER},
+      </if>
+      <if test="scoreCnt != null" >
+        score_cnt = #{scoreCnt,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="viewCnt != null" >
+        view_cnt = #{viewCnt,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="personVisible != null" >
+        person_visible = #{personVisible,jdbcType=CHAR},
+      </if>
+      <if test="statue != null" >
+        statue = #{statue,jdbcType=CHAR},
+      </if>
+    </set>
+    where resource_id = #{resourceId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yckj.school.domain.Resource" >
+    update resource
+    set name = #{name,jdbcType=VARCHAR},
+      suffix = #{suffix,jdbcType=VARCHAR},
+      ori_url = #{oriUrl,jdbcType=VARCHAR},
+      swf_url = #{swfUrl,jdbcType=VARCHAR},
+      major_id = #{majorId,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER},
+      note = #{note,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=BIGINT},
+      save_cnt = #{saveCnt,jdbcType=INTEGER},
+      load_cnt = #{loadCnt,jdbcType=INTEGER},
+      score_cnt = #{scoreCnt,jdbcType=INTEGER},
+      score = #{score,jdbcType=INTEGER},
+      view_cnt = #{viewCnt,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      person_visible = #{personVisible,jdbcType=CHAR},
+      statue = #{statue,jdbcType=CHAR}
+    where resource_id = #{resourceId,jdbcType=BIGINT}
+  </update>
+  <!-- 查询总记录数 -->
+  <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="map">
+    select count(*)
+    from resource
+    <where>
+      <if test="resourceId != null and resourceId != ''">
+        and resource_id = #{resourceId,jdbcType=BIGINT}
+      </if>
+      <if test="name != null and name != ''">
+        and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+      </if>
+     <if test="suffix != null and suffix != ''">
+        and suffix = #{suffix,jdbcType=VARCHAR}
+      </if>
+      <if test="majorId != null and majorId != ''">
+        and major_id = #{majorId,jdbcType=BIGINT}
+      </if>
+       <if test="type != null and type != ''">
+        and type = #{type,jdbcType=INTEGER}
+      </if>
+      <if test="note != null and note != ''">
+        and note like concat('%',#{note,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="userId != null and userId != ''">
+        and user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="statue != null and statue != ''">
+        and statue = #{statue,jdbcType=CHAR}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询 -->
+  <select id="selectByPage" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from resource
+    <where>
+      <if test="resourceId != null and resourceId != ''">
+        and resource_id = #{resourceId,jdbcType=BIGINT}
+      </if>
+      <if test="name != null and name != ''">
+        and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+      </if>
+     <if test="suffix != null and suffix != ''">
+        and suffix = #{suffix,jdbcType=VARCHAR}
+      </if>
+      <if test="majorId != null and majorId != ''">
+        and major_id = #{majorId,jdbcType=BIGINT}
+      </if>
+       <if test="type != null and type != ''">
+        and type = #{type,jdbcType=INTEGER}
+      </if>
+      <if test="note != null and note != ''">
+        and note like concat('%',#{note,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="userId != null and userId != ''">
+        and user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="statue != null and statue != ''">
+        and statue = #{statue,jdbcType=CHAR}
+      </if>
+    </where>
+    <if test="orderByColumn != null and orderByColumn != ''">
+      order by ${orderByColumn}
+      <if test="orderType != null and orderType != ''">
+        ${orderType}
+      </if>
+    </if>
+    limit
+    #{start,jdbcType=INTEGER},#{count,jdbcType=INTEGER}
+  </select>
+  <!-- 下载次数加1 -->
+  <update id="addLoadCnt"  parameterType="com.yckj.school.domain.Resource">
+    update resource
+    set load_cnt = load_cnt+1
+    where resource_id=#{resourceId,jdbcType=BIGINT}
+  </update>
+  <!-- 收藏次数加1 -->
+  <update id="addSaveCnt"  parameterType="com.yckj.school.domain.Resource">
+    update resource
+    set save_cnt = save_cnt+1
+    where resource_id=#{resourceId,jdbcType=BIGINT}
+  </update>
+  <!-- 收藏次数减1 -->
+  <update id="subSaveCnt"  parameterType="com.yckj.school.domain.Resource">
+    update resource
+    set save_cnt = save_cnt-1
+    where resource_id=#{resourceId,jdbcType=BIGINT}
+  </update>
+  <!-- 评分 -->
+  <update id="addScore"  parameterType="com.yckj.school.domain.Resource">
+    update resource c1 inner join resource c2 on c1.resource_id=c2.resource_id 
+    set c1.score=round(1.0*(c2.score*c2.score_cnt+#{score,jdbcType=INTEGER})/(c2.score_cnt+1)),
+    c1.score_cnt=c2.score_cnt+1
+    where c1.resource_id=#{resourceId,jdbcType=BIGINT};
+  </update>
+</mapper>

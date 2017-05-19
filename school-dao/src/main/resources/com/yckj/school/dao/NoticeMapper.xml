@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yckj.school.dao.NoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.yckj.school.domain.Notice" >
+    <id column="notice_id" property="noticeId" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="statue" property="statue" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    notice_id, title, author, content, type, create_time, statue
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yckj.school.domain.NoticeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from notice
+    where notice_id = #{noticeId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from notice
+    where notice_id = #{noticeId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yckj.school.domain.NoticeExample" >
+    delete from notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yckj.school.domain.Notice" >
+    insert into notice (notice_id, title, author, 
+      content, type, create_time, 
+      statue)
+    values (#{noticeId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{statue,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yckj.school.domain.Notice" >
+    insert into notice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="noticeId != null" >
+        notice_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="statue != null" >
+        statue,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="noticeId != null" >
+        #{noticeId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statue != null" >
+        #{statue,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update notice
+    <set >
+      <if test="record.noticeId != null" >
+        notice_id = #{record.noticeId,jdbcType=BIGINT},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=CHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.statue != null" >
+        statue = #{record.statue,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update notice
+    set notice_id = #{record.noticeId,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=CHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      statue = #{record.statue,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yckj.school.domain.Notice" >
+    update notice
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statue != null" >
+        statue = #{statue,jdbcType=CHAR},
+      </if>
+    </set>
+    where notice_id = #{noticeId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yckj.school.domain.Notice" >
+    update notice
+    set title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      statue = #{statue,jdbcType=CHAR}
+    where notice_id = #{noticeId,jdbcType=BIGINT}
+  </update>
+  <!-- 查询总记录数 -->
+  <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="map">
+    select count(*)
+    from notice
+    <where>
+      <if test="noticeId != null and noticeId != ''">
+        and notice_id = #{noticeId,jdbcType=BIGINT}
+      </if>
+      <if test="type != null and type != ''">
+        and type = #{type,jdbcType=CHAR}
+      </if>
+      <if test="title != null and title != ''">
+        and title like concat('%',#{title,jdbcType=VARCHAR},'%')
+      </if>
+     <if test="author != null and author != ''">
+        and author like concat('%',#{author,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="content != null and content != ''">
+        and content like concat('%',#{content,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="statue != null and statue != ''">
+        and statue = #{statue,jdbcType=CHAR}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询 -->
+  <select id="selectByPage" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from notice
+    <where>
+      <if test="noticeId != null and noticeId != ''">
+        and notice_id = #{noticeId,jdbcType=BIGINT}
+      </if>
+      <if test="type != null and type != ''">
+        and type = #{type,jdbcType=CHAR}
+      </if>
+      <if test="title != null and title != ''">
+        and title like concat('%',#{title,jdbcType=VARCHAR},'%')
+      </if>
+     <if test="author != null and author != ''">
+        and author like concat('%',#{author,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="content != null and content != ''">
+        and content like concat('%',#{content,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="statue != null and statue != ''">
+        and statue = #{statue,jdbcType=CHAR}
+      </if>
+    </where>
+    <if test="orderByColumn != null and orderByColumn != ''">
+      order by ${orderByColumn}
+      <if test="orderType != null and orderType != ''">
+        ${orderType}
+      </if>
+    </if>
+    limit
+    #{start,jdbcType=INTEGER},#{count,jdbcType=INTEGER}
+  </select>
+</mapper>
