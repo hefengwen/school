@@ -1,9 +1,12 @@
 package com.yckj.school.dao;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.yckj.school.domain.Question;
 import com.yckj.school.domain.QuestionExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface QuestionMapper {
     int deleteByExample(QuestionExample example);
@@ -25,4 +28,16 @@ public interface QuestionMapper {
     int updateByPrimaryKeySelective(Question record);
 
     int updateByPrimaryKey(Question record);
+    /**
+     * 查询总记录数
+     * @param map
+     * @return
+     */
+    int selectTotalCount(Map<String,Object> map);
+    /**
+     * 分页查询
+     * @param map
+     * @return
+     */
+    List<Question> selectByPage(Map<String,Object> map);
 }

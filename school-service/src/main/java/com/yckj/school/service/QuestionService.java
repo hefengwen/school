@@ -9,10 +9,8 @@
  *******************************************************************************/
 package com.yckj.school.service;
 
-import java.util.List;
-import java.util.Map;
-
 import com.yckj.school.service.dto.QuestionDto;
+import com.yckj.school.service.dto.QuestionPageDto;
 
 /**
  * @author hefengwen
@@ -23,7 +21,7 @@ public interface QuestionService {
      * @param param
      * @return
      */
-    List<QuestionDto> queryQuestionsByPage(Map<String,Object> param);
+    QuestionPageDto listAllQuestionByPage(QuestionPageDto param);
     /**
      * 查询提问详情
      * @param dto

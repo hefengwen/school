@@ -15,26 +15,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yckj.school.common.constant.Constants;
 import com.yckj.school.common.util.PropertyUtils;
 import com.yckj.school.dao.CourseMapper;
 import com.yckj.school.dao.QuestionMapper;
 import com.yckj.school.dao.UserMapper;
 import com.yckj.school.domain.Course;
 import com.yckj.school.domain.Question;
-import com.yckj.school.domain.QuestionExample;
 import com.yckj.school.domain.User;
 import com.yckj.school.exception.SchoolErrorType;
 import com.yckj.school.exception.SchoolException;
 import com.yckj.school.service.AnswerService;
 import com.yckj.school.service.QuestionService;
+import com.yckj.school.service.dto.AnswerDto;
+import com.yckj.school.service.dto.AnswerPageDto;
 import com.yckj.school.service.dto.CourseDto;
 import com.yckj.school.service.dto.QuestionDto;
+import com.yckj.school.service.dto.QuestionPageDto;
 import com.yckj.school.service.dto.UserDto;
 
 /**
@@ -53,27 +55,36 @@ public class QuestionServiceImpl implements QuestionService{
     private AnswerService answerService;
 
     @Override
-    public List<QuestionDto> queryQuestionsByPage(Map<String, Object> param) {
-        QuestionExample exa = new QuestionExample();
-        QuestionExample.Criteria exaCri = exa.createCriteria();
-        
-        
-        List<Question> ques = questionMapper.selectByExample(exa);
-        if(CollectionUtils.isEmpty(ques))
-            return null;
-        List<QuestionDto> qs = new ArrayList<>(ques.size());
-        for(Question que:ques){
-            QuestionDto q = new QuestionDto();
-            try {
-                PropertyUtils.propertyCopy(q, que);
+    public QuestionPageDto listAllQuestionByPage(QuestionPageDto dto) {
+        logger.info("QuestionServiceImpl queryQuestionsByPage start ... ...");
+        try {
+            Map<String,Object> map = new HashMap<>();
+            map.put(Constants.START, (dto.getCurPage()-1)*dto.getPageCount());
+            map.put(Constants.COUNT, dto.getPageCount());
+            map.putAll(PropertyUtils.objectToMap(dto.getCondition()));
+            
+            if(dto.getNeedTotal()){
+                int totalCount = questionMapper.selectTotalCount(map);
+                dto.setTotalCount(totalCount);
+                dto.setTotalPageCount(totalCount%dto.getPageCount()==0?totalCount/dto.getPageCount():totalCount/dto.getPageCount()+1);
             }
-            catch (Exception e) {
-                logger.error("",e);
-                throw new SchoolException(SchoolErrorType.err_system, null);
+            
+            List<Question> questions = questionMapper.selectByPage(map);
+            List<Map<String, Object>> questionList = new ArrayList<>();
+            for(Question question:questions){
+                Map<String, Object> m = PropertyUtils.objectToMap(question);
+                User u = userMapper.selectByPrimaryKey(question.getUserId());
+                Course c = courseMapper.selectByPrimaryKey(question.getCourseId());
+                m.put("quser", u);
+                m.put("course", c);
+                questionList.add(m);
             }
-            qs.add(q);
+            dto.setQuestionList(questionList);
+        } catch (Exception e) {
+            logger.error("",e);
+            throw new SchoolException(SchoolErrorType.err_system, null);
         }
-        return qs;
+        return dto;
     }
 
     @Override
@@ -95,9 +106,12 @@ public class QuestionServiceImpl implements QuestionService{
             PropertyUtils.propertyCopy(userDto, user);
             dto.setUser(userDto);
             //获取回答信息
-            Map<String,Object> param = new HashMap<>();
-            param.put("qid", q.getQuesId());
-            dto.setAnswers(answerService.queryAnswersByPage(param));
+            AnswerPageDto apdto = new AnswerPageDto();
+            AnswerDto adto = new AnswerDto();
+            adto.setQuesId(qid);
+            apdto.setCondition(adto);
+            apdto.setPageCount(Integer.MAX_VALUE);
+            dto.setAnswers(answerService.queryAnswersByPage(apdto));
         }
         catch (Exception e) {
             logger.error("",e);

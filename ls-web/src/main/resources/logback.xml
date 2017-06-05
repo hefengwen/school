@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+  <property name="appName" value="school" />
+  <property name="logHome" value="${catalina.home}/webapps/logs" />
+  <property name="logLayout" value="%d{yyyy-MM-dd HH:mm:ss.S} [%thread] [%-5level] %logger - %msg%n" />
+  <property name="logCharset" value="UTF-8" />
+  
+  <contextName>${appName}</contextName>
+  
+  <jmxConfigurator />
+  
+  <!-- 控制台  -->
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${logLayout}</pattern>
+      <charset>${logCharset}</charset>
+    </encoder> 
+  </appender>
+  
+  <!-- 全部日志 输出到一个文件   -->
+  <appender name="file-all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logHome}/${appName}.log</file>
+    <encoder>
+      <pattern>${logLayout}</pattern>
+      <charset>${logCharset}</charset>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logHome}/${appName}.%d.zip</fileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+  </appender>
+  
+  <!-- error级别的日志输出到一个文件     -->
+  <appender name="file-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logHome}/${appName}-error.log</file>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">  
+      <level>ERROR</level>  
+      <onMatch>ACCEPT</onMatch>  
+      <onMismatch>DENY</onMismatch>  
+    </filter>  
+    <encoder>
+      <pattern>${logLayout}</pattern>
+      <charset>${logCharset}</charset>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logHome}/${appName}-error.%d.zip</fileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+  </appender>
+  
+  <root level="${logLevel}">
+    <appender-ref ref="console" />
+    <appender-ref ref="file-all" />
+    <appender-ref ref="file-error" />
+  </root>
+</configuration>
