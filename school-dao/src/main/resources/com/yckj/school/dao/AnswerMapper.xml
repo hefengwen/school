@@ -219,4 +219,52 @@
       statue = #{statue,jdbcType=CHAR}
     where ans_id = #{ansId,jdbcType=BIGINT}
   </update>
+  
+  <!-- 查询总记录数 -->
+  <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="map">
+    select count(*)
+    from answer
+    <where>
+      <if test="ansId != null and ansId != ''">
+        and ans_id = #{ansId,jdbcType=BIGINT}
+      </if>
+      <if test="quesId != null and quesId != ''">
+        and ques_id = #{quesId,jdbcType=BIGINT}
+      </if>
+      <if test="userId != null and userId != ''">
+        and user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="statue != null and statue != ''">
+        and statue = #{statue,jdbcType=CHAR}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询 -->
+  <select id="selectByPage" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from answer
+    <where>
+      <if test="ansId != null and ansId != ''">
+        and ans_id = #{ansId,jdbcType=BIGINT}
+      </if>
+      <if test="quesId != null and quesId != ''">
+        and ques_id = #{quesId,jdbcType=BIGINT}
+      </if>
+      <if test="userId != null and userId != ''">
+        and user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="statue != null and statue != ''">
+        and statue = #{statue,jdbcType=CHAR}
+      </if>
+    </where>
+    <if test="orderByColumn != null and orderByColumn != ''">
+      order by ${orderByColumn}
+      <if test="orderType != null and orderType != ''">
+        ${orderType}
+      </if>
+    </if>
+    limit
+    #{start,jdbcType=INTEGER},#{count,jdbcType=INTEGER}
+  </select>
 </mapper>

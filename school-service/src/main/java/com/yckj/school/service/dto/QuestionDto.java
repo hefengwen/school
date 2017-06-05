@@ -9,9 +9,6 @@
  *******************************************************************************/
 package com.yckj.school.service.dto;
 
-import java.util.List;
-
-import com.yckj.school.domain.Answer;
 import com.yckj.school.domain.Question;
 
 /**
@@ -23,7 +20,7 @@ public class QuestionDto extends Question{
     
     private UserDto user;
     
-    private List<AnswerDto> answers;
+    private AnswerPageDto answers;
 
     /**
      * @return course
@@ -56,15 +53,14 @@ public class QuestionDto extends Question{
     /**
      * @return answers
      */
-    public List<AnswerDto> getAnswers() {
+    public AnswerPageDto getAnswers() {
         return answers;
     }
 
     /**
      * @param answers set answers
      */
-    public void setAnswers(List<AnswerDto> answers) {
+    public void setAnswers(AnswerPageDto answers) {
         this.answers = answers;
     }
-    
 }

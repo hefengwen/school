@@ -9,6 +9,9 @@
  *******************************************************************************/
 package com.yckj.school.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,13 +20,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yckj.school.common.constant.Constants;
 import com.yckj.school.common.util.PropertyUtils;
 import com.yckj.school.dao.AnswerMapper;
+import com.yckj.school.dao.UserMapper;
 import com.yckj.school.domain.Answer;
+import com.yckj.school.domain.User;
 import com.yckj.school.exception.SchoolErrorType;
 import com.yckj.school.exception.SchoolException;
 import com.yckj.school.service.AnswerService;
 import com.yckj.school.service.dto.AnswerDto;
+import com.yckj.school.service.dto.AnswerPageDto;
 
 /**
  * @author hefengwen
@@ -33,11 +40,38 @@ public class AnswerServiceImpl implements AnswerService{
     private static final Logger logger = LoggerFactory.getLogger(AnswerServiceImpl.class);
     @Autowired
     private AnswerMapper answerMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
-    public List<AnswerDto> queryAnswersByPage(Map<String, Object> param) {
-        // TODO Write your code here
-        return null;
+    public AnswerPageDto queryAnswersByPage(AnswerPageDto dto) {
+        logger.info("AnswerServiceImpl queryAnswersByPage start ... ...");
+        try {
+            Map<String,Object> map = new HashMap<>();
+            map.put(Constants.START, (dto.getCurPage()-1)*dto.getPageCount());
+            map.put(Constants.COUNT, dto.getPageCount());
+            map.putAll(PropertyUtils.objectToMap(dto.getCondition()));
+            
+            if(dto.getNeedTotal()){
+                int totalCount = answerMapper.selectTotalCount(map);
+                dto.setTotalCount(totalCount);
+                dto.setTotalPageCount(totalCount%dto.getPageCount()==0?totalCount/dto.getPageCount():totalCount/dto.getPageCount()+1);
+            }
+            
+            List<Answer> answers = answerMapper.selectByPage(map);
+            List<Map<String, Object>> answerList = new ArrayList<>();
+            for(Answer answer:answers){
+                Map<String, Object> m = PropertyUtils.objectToMap(answer);
+                User u = userMapper.selectByPrimaryKey(answer.getUserId());
+                m.put("auser", u);
+                answerList.add(m);
+            }
+            dto.setAnswerList(answerList);
+        } catch (Exception e) {
+            logger.error("",e);
+            throw new SchoolException(SchoolErrorType.err_system, null);
+        }
+        return dto;
     }
 
     @Override
@@ -56,7 +90,16 @@ public class AnswerServiceImpl implements AnswerService{
 
     @Override
     public int saveAnswer(AnswerDto dto) {
-        // TODO Write your code here
+        Answer a = new Answer();
+        try {
+            PropertyUtils.propertyCopy(a, dto);
+            a.setCreateTime(new Date());
+            answerMapper.insertSelective(a);
+        }
+        catch (Exception e) {
+            logger.error("",e);
+            throw new SchoolException(SchoolErrorType.err_system, null);
+        }
         return 0;
     }
 
