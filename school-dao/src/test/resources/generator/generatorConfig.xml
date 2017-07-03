@@ -22,8 +22,8 @@
     connectionURL="jdbc:mysql://192.168.7.215:4376/ebill_db" 
     userId="ebill" password="ebill" /> -->
     <jdbcConnection driverClass="com.mysql.jdbc.Driver" 
-    connectionURL="jdbc:mysql://192.168.141.201:3306/school" 
-    userId="root" password="root" />
+    connectionURL="jdbc:mysql://192.168.141.51:3306/school" 
+    userId="school" password="school" />
     <!-- 类型转换 -->
     <javaTypeResolver>
         <!-- 是否使用bigDecimal,false可以自动转换 以下的类型 -->
@@ -56,7 +56,7 @@
     <!-- 配置表信息 -->
     
     <!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample 是否生成 example类   -->
-    <table schema="" tableName="score" domainObjectName="Score"  enableSelectByExample="true" 
+    <table schema="" tableName="answer" domainObjectName="Answer"  enableSelectByExample="true" 
         enableCountByExample="false" enableDeleteByExample="true" enableUpdateByExample="true">
     		<!-- 忽略列，不生成bean 字段 -->
 			<!--<ignoreColumn column="FRED" /> -->
