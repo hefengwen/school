@@ -133,6 +133,10 @@ public class Constants {
     /**
      * 项目根目录
      */
+    public static final String LB_ROOT_PATH = "lb.root";
+    /**
+     * 项目根目录
+     */
     public static final String ROOT_PATH = "school.root";
     /**
      * book首页

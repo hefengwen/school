@@ -15,3 +15,8 @@ String bookRootDir = System.getProperty(Constants.YZ_ROOT_PATH)+Constants.BOOK_D
 public static final String YZ_ROOT_PATH = "yz.root";
 
 注意：3/4/5保持一致
+6.打包
+clean package prod
+
+
+
