@@ -181,3 +181,26 @@ create table resource(
 	statue           char(1)            not null     default 'Y' comment 'Y:可见;N:删除',
 	primary key(resource_id)
 )ENGINE=InnoDB default charset=utf8 comment  '资源信息表';
+
+drop table if exists question;
+create table question(
+    ques_id    bigint    not null    auto_increment    comment '提问id',
+	title    varchar(100)    not null    comment '提问标题',
+	content  varchar(500)    not null    comment '提问内容',
+	course_id  bigint  not null  comment  '课程ID', 
+	user_id       varchar(20)   not null  comment '用户ID',
+	create_time  datetime    comment '提问时间',
+	statue           char(1)    not null     default 'Y' comment 'Y:可见;N:删除',
+	primary key(ques_id)
+)ENGINE=InnoDB default charset=utf8 comment  '提问表';
+
+drop table if exists answer;
+create table answer(
+    ans_id    bigint    not null    auto_increment    comment '回复id',
+	content  varchar(500)    not null    comment '回复内容',
+	ques_id    bigint    not null    comment '提问id',
+	user_id       varchar(20)   not null  comment '用户ID',
+	create_time  datetime    comment '回复时间',
+	statue           char(1)    not null     default 'Y' comment 'Y:可见;N:删除',
+	primary key(ans_id)
+)ENGINE=InnoDB default charset=utf8 comment  '回答表';
