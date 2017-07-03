@@ -1,6 +1,6 @@
-drop database if exists liushang;
-create database liushang default character set utf8 collate utf8_general_ci;
-use liushang;
+-- drop database if exists liushang;
+-- create database liushang default character set utf8 collate utf8_general_ci;
+-- use liushang;
 
 drop table if exists dict;
 create table dict(
