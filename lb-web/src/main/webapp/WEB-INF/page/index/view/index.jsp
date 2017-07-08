@@ -24,12 +24,12 @@
     <div class="row clearfix allContent">
       <div id="indexPic">
         <ul class="vmcarousel-centered-infitine">
-          <li><img src="<c:url value="/indexpic/images/1.jpg"/>" alt="" width="180"></li>
-          <li><img src="<c:url value="/indexpic/images/2.jpg"/>" alt="" width="180"></li>
-          <li><img src="<c:url value="/indexpic/images/3.jpg"/>" alt="" width="180"></li>
-          <li><img src="<c:url value="/indexpic/images/4.jpg"/>" alt="" width="180"></li>
-          <li><img src="<c:url value="/indexpic/images/5.jpg"/>" alt="" width="180"></li>
-          <li><img src="<c:url value="/indexpic/images/6.jpg"/>" alt="" width="180"></li>
+          <li><img src="<c:url value="/indexpic/images/1.png"/>" alt="" width="180"></li>
+          <li><img src="<c:url value="/indexpic/images/2.png"/>" alt="" width="180"></li>
+          <li><img src="<c:url value="/indexpic/images/3.png"/>" alt="" width="180"></li>
+          <li><img src="<c:url value="/indexpic/images/4.png"/>" alt="" width="180"></li>
+          <li><img src="<c:url value="/indexpic/images/5.png"/>" alt="" width="180"></li>
+          <li><img src="<c:url value="/indexpic/images/6.png"/>" alt="" width="180"></li>
          </ul>
       </div>
     </div>
