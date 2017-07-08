@@ -21,7 +21,7 @@
           <li id="index" style="border-left:1px solid #fff;"><a href="<c:url value="/"/>" ">首页</a></li>
           <li id="studyCenter" style="border-left:1px solid #fff;"><a href="<c:url value="/study/studyInfo"/>">教学中心</a></li>
           <li id="downloadCenter" style="border-left:1px solid #fff;"><a href="<c:url value="/download/downloadInfo"/>">资源中心</a></li>
-          <li id="qaCenter" style="border-left:1px solid #fff;"><a href="<c:url value="/qa/questionInfo"/>">问答中心</a></li>
+          <li id="qaCenter" style="border-left:1px solid #fff;"><a href="<c:url value="/qa/questionInfo"/>">交流中心</a></li>
           <li id="userCenter" style="border-left:1px solid #fff;"><a id="toLogin" href="<c:url value="/user/userInfo"/>">个人中心</a></li>
         </ul>
       </div>
