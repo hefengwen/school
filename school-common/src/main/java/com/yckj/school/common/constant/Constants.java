@@ -139,6 +139,14 @@ public class Constants {
      */
     public static final String ROOT_PATH = "school.root";
     /**
+     * 项目根目录
+     */
+    public static final String TD_ROOT_PATH = "td.root";
+    /**
+     * 项目根目录
+     */
+    public static final String GXXD_ROOT_PATH = "gxxd.root";
+    /**
      * book首页
      */
     public static final String BOOK_INDEX = "/index.html";
